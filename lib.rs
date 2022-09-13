@@ -1,4 +1,6 @@
 extern crate diff;
+extern crate ansi_term;
+
 use std::cmp::max;
 
 use ansi_term::Colour;
@@ -33,7 +35,13 @@ impl<'a> ToString for DiffU<'a> {
             DiffU::CaretPos { left, right } => format!("@@ -{},{} +{},{} @@", left.start, left.count, right.start, right.count),
             DiffU::Addition(s) => format!("+{}", s),
             DiffU::Deletion(s) => format!("-{}", s),
-            DiffU::Display(s) => format!(" {}", s),
+            DiffU::Display(s) => {
+                if s.len() == 0 {
+                    String::with_capacity(0)
+                } else {
+                    format!(" {}", s)
+                }
+            }
         }
     }
 }
@@ -141,13 +149,13 @@ fn render_diff<'a>(diff: &Vec<DiffDelta<&'a str>>) -> Vec<DiffU<'a>> {
     }
 
     for (lower, upper) in sync_pos {
-        let left_line = zipped_lines[lower].0.left;
-        let left_count = zipped_lines[upper].0.left - left_line + 1;
-        let right_line = zipped_lines[lower].0.right;
-        let right_count = zipped_lines[upper].0.right - right_line + 1;
+        let left_start = zipped_lines[lower].0.left;
+        let left_count = zipped_lines[upper].0.left - left_start + 1;
+        let right_start = zipped_lines[lower].0.right;
+        let right_count = zipped_lines[upper].0.right - right_start + 1;
         buf.push(DiffU::CaretPos {
-            left: Range { start: left_line, count: left_count },
-            right: Range { start: right_line, count: right_count },
+            left: Range { start: left_start, count: left_count },
+            right: Range { start: right_start, count: right_count },
         });
 
         for i in lower..=upper {
