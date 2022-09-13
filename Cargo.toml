@@ -2,6 +2,8 @@
 name = "patchfile"
 version = "0.1.0"
 edition = "2021"
+description = "Render a set of diffs into diff -u format, which is compatible with patch."
+license-file = "LICENSE"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
