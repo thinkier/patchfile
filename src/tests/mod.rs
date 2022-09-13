@@ -1,4 +1,4 @@
-use crate::imp::diff::render_diff;
+use crate::render_diff;
 
 const DIFF: &'static str = include_str!("wktest.diff");
 const NEW: &'static str = include_str!("wktest.new");

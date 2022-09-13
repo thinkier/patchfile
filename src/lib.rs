@@ -1,33 +1,13 @@
 extern crate diff;
 extern crate ansi_term;
 
+mod model;
+
 use std::cmp::max;
 
 use ansi_term::Colour;
 use diff::Result as DiffDelta;
-
-#[derive(Debug, Clone)]
-struct LineNumber {
-    left: usize,
-    right: usize,
-}
-
-#[derive(Debug, Clone)]
-struct Range {
-    start: usize,
-    count: usize,
-}
-
-#[derive(Debug, Clone)]
-enum DiffU<'a> {
-    CaretPos {
-        left: Range,
-        right: Range,
-    },
-    Addition(&'a str),
-    Deletion(&'a str),
-    Display(&'a str),
-}
+use crate::model::{DiffU, LineNumber, Range};
 
 impl<'a> ToString for DiffU<'a> {
     fn to_string(&self) -> String {
@@ -72,7 +52,7 @@ pub fn display_diff(name: &str, remote_time: &str, local_time: &str, diff: &Vec<
 const SELECT_CLEARANCE: usize = 3;
 const LOOKBACK_RANGE: usize = SELECT_CLEARANCE * 2 - 1;
 
-fn render_diff<'a>(diff: &Vec<DiffDelta<&'a str>>) -> Vec<DiffU<'a>> {
+pub(crate) fn render_diff<'a>(diff: &Vec<DiffDelta<&'a str>>) -> Vec<DiffU<'a>> {
     let mut buf = vec![];
 
     let mut zipped_lines = vec![];
