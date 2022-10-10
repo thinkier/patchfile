@@ -87,7 +87,7 @@ impl<'a> Patchfile<'a> {
                 }
             }?;
 
-            w.write_all(s.as_bytes())?;
+            writeln!(w, "{}", s)?;
         };
 
         Ok(())

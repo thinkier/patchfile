@@ -1,6 +1,6 @@
 [package]
 name = "patchfile"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 description = "Render a set of diffs into diff -u format, which is compatible with patch."
 license-file = "LICENSE"
