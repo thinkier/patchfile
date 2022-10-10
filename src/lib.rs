@@ -63,7 +63,7 @@ impl<'a> Patchfile<'a> {
     }
 
     fn write_impl<W: WriteColor>(&self, mut w: W, remote: &str, local: &str) -> IoResult<()> {
-        let diff = diff::lines(remote, local);
+        let diff = diff::lines(local, remote);
 
         w.set_color(ColorSpec::new().set_fg(Some(Color::Red)))?;
         writeln!(w, "--- {}\t{}", self.local_name, self.local_time.unwrap_or(""))?;
